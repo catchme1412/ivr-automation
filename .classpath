@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="/home/schandrashekar/doc/jar/freetts-1.0.jar"/>
-	<classpathentry kind="lib" path="/home/schandrashekar/doc/jar/freetts-1.2.2-bin.zip_FILES/freetts-1.2/lib/en_us.jar"/>
-	<classpathentry kind="lib" path="/home/schandrashekar/doc/jar/freetts-1.2.2-bin.zip_FILES/freetts-1.2/lib/cmu_time_awb.jar"/>
-	<classpathentry kind="lib" path="/home/schandrashekar/doc/jar/freetts-1.2.2-bin.zip_FILES/freetts-1.2/lib/cmu_us_kal.jar"/>
-	<classpathentry kind="output" path="bin"/>
+  <classpathentry kind="src" path="src" including="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/freetts/1.0/freetts-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/cmu_us_kal/1.0/cmu_us_kal-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/cmu_time_awb/1.0/cmu_time_awb-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/en_us/1.0/en_us-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/cmutimelex/1.0/cmutimelex-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mobicents/external/freetts/cmulex/1.0/cmulex-1.0.jar"/>
 </classpath>
