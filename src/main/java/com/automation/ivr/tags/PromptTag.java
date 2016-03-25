@@ -1,12 +1,7 @@
 package com.automation.ivr.tags;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 
-import com.sun.speech.freetts.Voice;
-import com.sun.speech.freetts.VoiceManager;
-
-public class PromptTag implements Tag {
+public class PromptTag extends AbstractTag {
 
     private String bargein;
     private String bargeintype;
@@ -17,8 +12,8 @@ public class PromptTag implements Tag {
     private String expr;
 
     @Override
-    public boolean execute(BufferedReader br) {
-
+    public boolean execute() {
+/*
         String line;
         try {
             VoiceManager vm = VoiceManager.getInstance();
@@ -30,7 +25,7 @@ public class PromptTag implements Tag {
             System.out.println("Prompt:: " + line);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return true;
     }
 

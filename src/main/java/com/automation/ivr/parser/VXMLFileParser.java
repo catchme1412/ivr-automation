@@ -50,7 +50,7 @@ public class VXMLFileParser implements IFileParser {
                 }
                 String className = getTag(line);
                 Tag tag = (Tag) Class.forName("com.automation.ivr.tags." + className).newInstance();
-                tag.execute(br);
+                tag.execute();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class VXMLFileParser implements IFileParser {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
-            Tag tag = getTag(doc.getFirstChild());
+            Tag tag = TagFactory.get(doc.getFirstChild());
             tagList.add(tag);
             
             parseAllNodes(tagList, doc.getFirstChild());
@@ -135,13 +135,15 @@ public class VXMLFileParser implements IFileParser {
 
     }
 
-    private void parseAllNodes(List<Tag> tagList, Node node) throws InstantiationException,
-            IllegalAccessException, ClassNotFoundException {
+    private void parseAllNodes(List<Tag> tagList, Node node) throws InstantiationException, IllegalAccessException,
+            ClassNotFoundException {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
-            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                tagList.add(TagFactory.get(currentNode));
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE || currentNode.getNodeType() == Node.TEXT_NODE) {
+                Tag tag = TagFactory.get(currentNode);
+                tag.setNonFieldData(currentNode);
+                tagList.add(tag);
                 parseAllNodes(tagList, currentNode);
             }
         }

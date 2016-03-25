@@ -21,11 +21,11 @@ public class VXMLEngine {
         try {
             List<Tag> tagList = vxmlFileParser.parse(file);
             for (Tag tag : tagList) {
-//                tag.execute(br)
+                tag.execute();
             }
         } catch (FileParsingException e) {
             e.printStackTrace();
         }
 
-    }
+}
 }

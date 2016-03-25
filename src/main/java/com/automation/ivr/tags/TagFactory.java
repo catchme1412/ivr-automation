@@ -11,16 +11,17 @@ public class TagFactory {
     public static Tag get(Node node) {
 //      String tagName = getTagName(node);
         try {
-            Tag tag = getTag(node); 
+            Tag tag = getTag(node);
 //            Constructor c = Class.forName(tagName).getConstructor();
 //            Tag tag = (Tag) c.newInstance();
 //            tag.setNode(node);
-            setFieldValues(node, tag);
+            if (tag != null) {
+                setFieldValues(node, tag);
+            }
             return tag;
         } catch (Exception e) {
             System.err.println("NO CLASS:" + e.getMessage());
-            return null;
-//            return new DoNothingTag(node);
+            return new DoNothingTag();
         }
     }
 
@@ -28,7 +29,7 @@ public class TagFactory {
         Field[] fields = tag.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            Node value = node.getAttributes().getNamedItem(field.getName());
+            Node value = node.getAttributes() != null ? node.getAttributes().getNamedItem(field.getName()) : null;
             if (value != null) {
                 field.set(tag, value.getNodeValue());
             }
@@ -54,8 +55,12 @@ public class TagFactory {
 
     private static Tag getTag(Node node) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         String nodeName = node.getNodeName();
-        nodeName = nodeName.substring(0, 1).toUpperCase() + nodeName.substring(1);
-        Tag tag = (Tag) Class.forName("com.automation.ivr.tags." + nodeName + "Tag").newInstance();
+        Tag tag = null;
+        nodeName = Character.toUpperCase(nodeName.charAt(0)) + nodeName.substring(1);
+        if (node.getNodeType() == Node.TEXT_NODE) {
+            nodeName = "Text";
+        }
+        tag = (Tag) Class.forName("com.automation.ivr.tags." + nodeName + "Tag").newInstance();
 /*        if(node.hasAttributes()){
             NamedNodeMap namedNodeMap = node.getAttributes();
             namedNodeMap.item(0)

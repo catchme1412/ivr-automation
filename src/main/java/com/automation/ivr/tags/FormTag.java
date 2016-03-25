@@ -1,13 +1,12 @@
 package com.automation.ivr.tags;
 
-import java.io.BufferedReader;
 
-public class FormTag implements Tag {
+public class FormTag extends AbstractTag {
 
     private String id;
 
     @Override
-    public boolean execute(BufferedReader br) {
+    public boolean execute() {
         return true;
     }
 

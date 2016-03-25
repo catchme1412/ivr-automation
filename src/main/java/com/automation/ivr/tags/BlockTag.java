@@ -1,15 +1,16 @@
 package com.automation.ivr.tags;
 
-import java.io.BufferedReader;
+import org.w3c.dom.Node;
 
-public class BlockTag implements Tag {
+
+public class BlockTag extends AbstractTag{
 
     String name;
     String expr;
     String cond;
 
     @Override
-    public boolean execute(BufferedReader br) {
+    public boolean execute() {
         return true;
     }
 
