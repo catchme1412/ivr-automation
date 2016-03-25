@@ -1,21 +1,35 @@
 package com.automation.ivr.parser;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import com.automation.ivr.engine.VXMLEngine;
+import com.automation.ivr.exception.FileParsingException;
 import com.automation.ivr.tags.Tag;
+import com.automation.ivr.tags.TagFactory;
 
-public class VXMLFileParser {
+public class VXMLFileParser implements IFileParser {
 
     private String fileName;
-    private VXMLEngine vxmlEngine;
     private String remoteLoc;
 
     public VXMLFileParser(String remoteLoc, VXMLEngine vxmlEngine) {
         this.remoteLoc = remoteLoc;
-        this.vxmlEngine = vxmlEngine;
     }
 
     public String getFileName() {
@@ -24,14 +38,6 @@ public class VXMLFileParser {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public VXMLEngine getVxmlEngine() {
-        return vxmlEngine;
-    }
-
-    public void setVxmlEngine(VXMLEngine vxmlEngine) {
-        this.vxmlEngine = vxmlEngine;
     }
 
     public void parse() {
@@ -88,5 +94,72 @@ public class VXMLFileParser {
          * String endString = ">"; if (line.contains("/>")) { endString = "/>";
          * } return line.substring(line.indexOf("<"), line.indexOf(endString));
          */
+    }
+
+    public List<Tag> parse(File file) throws FileParsingException {
+
+        List<Tag> tagList = new ArrayList<Tag>();
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(file);
+            doc.getDocumentElement().normalize();
+            Tag tag = getTag(doc.getFirstChild());
+            tagList.add(tag);
+            
+            parseAllNodes(tagList, doc.getFirstChild());
+            /*NodeList nodeList = doc.getFirstChild().getChildNodes();
+            for (int count = 0; count < nodeList.getLength(); count++) {
+                Node node = nodeList.item(count);
+                tagList.add(getTag(node));
+            }*/
+        } catch (ParserConfigurationException e) {
+            throwFileParsingException(file.getName(), e);
+        } catch (SAXException e) {
+            throwFileParsingException(file.getName(), e);
+        } catch (IOException e) {
+            throwFileParsingException(file.getName(), e);
+        } catch (InstantiationException e) {
+            throwFileParsingException(file.getName(), e);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            throwFileParsingException(file.getName(), e);
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throwFileParsingException(file.getName(), e);
+            e.printStackTrace();
+        }
+
+        return tagList;
+
+    }
+
+    private void parseAllNodes(List<Tag> tagList, Node node) throws InstantiationException,
+            IllegalAccessException, ClassNotFoundException {
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                tagList.add(TagFactory.get(currentNode));
+                parseAllNodes(tagList, currentNode);
+            }
+        }
+    }
+
+/*    private Tag getTag(Node node) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        String nodeName = node.getNodeName();
+        nodeName = nodeName.substring(0, 1).toUpperCase() + nodeName.substring(1);
+        Tag tag = (Tag) Class.forName("com.automation.ivr.tags." + nodeName + "Tag").newInstance();
+        if(node.hasAttributes()){
+            NamedNodeMap namedNodeMap = node.getAttributes();
+            namedNodeMap.item(0)
+        }
+        
+        return tag;
+    }*/
+
+    private void throwFileParsingException(String fileName, Exception e) throws FileParsingException {
+        throw new FileParsingException("Exception while Parsing the file: " + fileName, e);
     }
 }
