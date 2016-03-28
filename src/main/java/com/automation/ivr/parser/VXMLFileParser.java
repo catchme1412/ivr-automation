@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.automation.ivr.engine.VXMLEngine;
+import com.automation.ivr.core.VXMLEngine;
 import com.automation.ivr.exception.FileParsingException;
 import com.automation.ivr.tags.Tag;
 import com.automation.ivr.tags.TagFactory;
