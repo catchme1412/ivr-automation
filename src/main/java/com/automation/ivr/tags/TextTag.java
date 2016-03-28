@@ -2,6 +2,8 @@ package com.automation.ivr.tags;
 
 import org.w3c.dom.Node;
 
+import com.automation.ivr.core.OutputType;
+import com.automation.ivr.core.OutputWrapper;
 import com.automation.ivr.core.VXMLEngine;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
@@ -19,7 +21,8 @@ public class TextTag extends AbstractTag {
             voice.allocate();
 
             if (!data.isEmpty()) {
-                VXMLEngine.getIoHandler().getOutputStack().add(data);
+                OutputWrapper outputWrapper = new OutputWrapper(OutputType.TTS, data);
+                VXMLEngine.getIoHandler().getOutputQueue().add(outputWrapper);
                 if (!Boolean.valueOf(VXMLEngine.isOnMute())) {
                     voice.speak(data);
                 }

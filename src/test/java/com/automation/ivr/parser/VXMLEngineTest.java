@@ -5,16 +5,17 @@ import java.util.Queue;
 
 import junit.framework.TestCase;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
+import com.automation.ivr.core.OutputWrapper;
 import com.automation.ivr.core.VXMLEngine;
 
-public class VXMLEngineTest{
+public class VXMLEngineTest {
 
     private VXMLEngine vxmlEngine;
 
-    @Before
+    @BeforeTest
     public void init() {
         File file = new File("examples/prompt_example.vxml");
         vxmlEngine = new VXMLEngine();
@@ -25,9 +26,9 @@ public class VXMLEngineTest{
     public void test() {
 
         vxmlEngine.main(null);
-        Queue<String> testStack = VXMLEngine.getIoHandler().getOutputStack();
-        String outputString = testStack.poll();
-        TestCase.assertEquals(outputString, "Hello World. This is my first prompt.");
+        Queue<OutputWrapper> testStack = VXMLEngine.getIoHandler().getOutputQueue();
+        OutputWrapper outputString = testStack.poll();
+        TestCase.assertEquals(outputString.getOutput(), "Hello World. This is my first prompt.");
     }
 
 }
