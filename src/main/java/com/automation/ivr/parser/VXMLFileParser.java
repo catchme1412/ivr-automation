@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +28,11 @@ public class VXMLFileParser implements IFileParser {
 
     private String fileName;
     private String remoteLoc;
+    public static Stack<Tag> stack;
 
+    static {
+        stack = new Stack<Tag>();
+    }
     public VXMLFileParser(String remoteLoc, VXMLEngine vxmlEngine) {
         this.remoteLoc = remoteLoc;
     }
@@ -96,19 +101,18 @@ public class VXMLFileParser implements IFileParser {
          */
     }
 
-    public List<Tag> parse(File file) throws FileParsingException {
+    public Tag parse(File file) throws FileParsingException {
 
-        List<Tag> tagList = new ArrayList<Tag>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
+        Tag tag = null;
         try {
             dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
-            Tag tag = TagFactory.get(doc.getFirstChild());
-            tagList.add(tag);
-            
-            parseAllNodes(tagList, doc.getFirstChild());
+            tag = TagFactory.get(doc.getFirstChild());
+            System.out.println(doc.getFirstChild().getNodeName());
+            parseAllNodes(tag, doc.getFirstChild());
             /*NodeList nodeList = doc.getFirstChild().getChildNodes();
             for (int count = 0; count < nodeList.getLength(); count++) {
                 Node node = nodeList.item(count);
@@ -131,11 +135,11 @@ public class VXMLFileParser implements IFileParser {
             e.printStackTrace();
         }
 
-        return tagList;
+        return tag;
 
     }
 
-    private void parseAllNodes(List<Tag> tagList, Node node) throws InstantiationException, IllegalAccessException,
+    private void parseAllNodes(Tag parentTag, Node node) throws InstantiationException, IllegalAccessException,
             ClassNotFoundException {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -143,8 +147,10 @@ public class VXMLFileParser implements IFileParser {
             if (currentNode.getNodeType() == Node.ELEMENT_NODE || currentNode.getNodeType() == Node.TEXT_NODE) {
                 Tag tag = TagFactory.get(currentNode);
                 tag.setNonFieldData(currentNode);
-                tagList.add(tag);
-                parseAllNodes(tagList, currentNode);
+                tag.setHierarchy(currentNode, tag, parentTag);
+//                tagList.add(tag);
+                parseAllNodes(tag, currentNode);
+                tag.cleanUp();
             }
         }
     }

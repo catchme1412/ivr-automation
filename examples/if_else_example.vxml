@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<vxml version = "2.1" >
+    <form id="someName">
+		<block>
+			<var name="flavor" expr="vanilla"/>
+			<if cond="flavor == 'vanilla'"> 
+				<prompt> Flavor is vanilla</prompt>
+			<else/> 
+			  <prompt> Flavor is other</prompt>
+			</if>
+			<prompt> End</prompt>
+		</block>
+	</form>
+</vxml>

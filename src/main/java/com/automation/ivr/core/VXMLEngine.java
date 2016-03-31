@@ -14,9 +14,11 @@ public class VXMLEngine {
     private File file;
     private static boolean onMute;
     private static IOHandler ioHandler;
+    private static VxmlScriptEngine vxmlScriptEngine;
     static {
         onMute = false;
         ioHandler = new IOHandler();
+        vxmlScriptEngine = new VxmlScriptEngine();
     }
 
     public void main(String[] args) {
@@ -29,14 +31,10 @@ public class VXMLEngine {
 
         // file = new File("examples/prompt_example.vxml");
         try {
-            File propertiesFile = new File("ivr-automation.properties");
-            FileInputStream fileInput = new FileInputStream(propertiesFile);
-            fileInput.close();
 
-            List<Tag> tagList = vxmlFileParser.parse(file);
-            for (Tag tag : tagList) {
-                tag.execute();
-            }
+            Tag tag = vxmlFileParser.parse(file);
+            tag.run();;
+
         } catch (FileParsingException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -45,6 +43,10 @@ public class VXMLEngine {
 
     }
 
+/*    private void execute(Tag tag){
+        tag.execute();
+        tag
+    }*/
     public File getFile() {
         return file;
     }
@@ -67,6 +69,14 @@ public class VXMLEngine {
 
     public static void setIoHandler(IOHandler ioHandler) {
         VXMLEngine.ioHandler = ioHandler;
+    }
+
+    public static VxmlScriptEngine getVxmlScriptEngine() {
+        return vxmlScriptEngine;
+    }
+
+    public static void setVxmlScriptEngine(VxmlScriptEngine vxmlScriptEngine) {
+        VXMLEngine.vxmlScriptEngine = vxmlScriptEngine;
     }
 
 }

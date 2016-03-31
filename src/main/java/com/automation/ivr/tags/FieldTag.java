@@ -5,6 +5,7 @@ public class FieldTag extends AbstractTag {
     private String name;
     private String cond;
     private String expr;
+    private String type;
 
     @Override
     public boolean execute() {
@@ -22,6 +23,10 @@ public class FieldTag extends AbstractTag {
 
     public String getExpr() {
         return expr;
+    }
+
+    public String getType() {
+        return type;
     }
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<vxml version = "2.1" >
+    <form id="someName">
+		<block>
+			<var name="num" expr="25"/>
+			<if cond="num &gt; 12"> 
+				<prompt>
+					Number is greater than 12.
+				</prompt>
+				<if cond="num &lt; 24">
+					Number is less than 24
+				</if>
+				<prompt>
+					End.
+				</prompt>
+			</if>  
+			<prompt> Created by tutee</prompt>
+		</block>
+	</form>
+</vxml>

@@ -10,6 +10,6 @@ import com.automation.ivr.tags.Tag;
 
 public interface IFileParser {
 
-    public List<Tag> parse(File file) throws FileParsingException;
+    public Tag parse(File file) throws FileParsingException;
 
 }

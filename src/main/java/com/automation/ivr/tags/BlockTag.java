@@ -1,13 +1,15 @@
 package com.automation.ivr.tags;
 
-import org.w3c.dom.Node;
 
-
-public class BlockTag extends AbstractTag{
+public class BlockTag extends AbstractTag {
 
     String name;
     String expr;
     String cond;
+
+    public BlockTag() {
+        super();
+    }
 
     @Override
     public boolean execute() {
