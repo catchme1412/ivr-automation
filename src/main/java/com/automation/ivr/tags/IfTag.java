@@ -11,24 +11,21 @@ import com.automation.ivr.parser.VXMLFileParser;
 public class IfTag extends LogicalTag {
 
     private String cond;
+    private Boolean booleanValue;
 
     @Override
     public void run() {
         if (cond != null && !cond.isEmpty()) {
-            try {
-                Boolean bool = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
-                ifConditionState(bool);
-                System.out.println("Boolean " + bool);
-                for (Tag tag : getChildTagList()) {
-                    if (bool || tag instanceof ElseifTag || tag instanceof ElseTag) {
-                        tag.run();
-                    }
+            execute();
+            System.out.println("Boolean " + booleanValue);
+            for (Tag tag : getChildTagList()) {
+                if (booleanValue || tag instanceof ElseifTag || tag instanceof ElseTag) {
+                    tag.run();
                 }
-            } catch (VxmlException e) {
-                e.printStackTrace();
             }
 
         }
+        clearTopIfCondition();
     }
 
     @Override
@@ -42,6 +39,13 @@ public class IfTag extends LogicalTag {
             }
 
         }*/
+        try {
+            booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
+            ifConditionState(booleanValue);
+        } catch (VxmlException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return true;
     }
 
