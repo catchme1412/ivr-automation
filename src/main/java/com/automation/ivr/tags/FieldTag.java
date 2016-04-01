@@ -7,12 +7,6 @@ public class FieldTag extends AbstractTag {
     private String expr;
     private String type;
 
-    @Override
-    public boolean execute() {
-        return true;
-
-    }
-
     public String getName() {
         return name;
     }

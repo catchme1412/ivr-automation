@@ -8,14 +8,19 @@ import com.automation.ivr.parser.VXMLFileParser;
 
 public class ElseTag extends LogicalTag {
 
-
     @Override
-    public void run() {
+    public void preExecute() {
         if (!isAllParentIfConditionsAreTrue()) {
-            for (Tag tag : getChildTagList()) {
-                tag.run();
-            }
+           execute();
         }
+
+    }
+
+    public boolean execute() {
+        for (Tag tag : getChildTagList()) {
+            tag.preExecute();
+        }
+        return true;
 
     }
 
@@ -25,7 +30,6 @@ public class ElseTag extends LogicalTag {
         List<Tag> parentChildTagList = ((AbstractTag) this.parentTag).getChildTagList();
         parentChildTagList.add(tag);
         VXMLFileParser.stack.push(tag);
-
     }
 
 }

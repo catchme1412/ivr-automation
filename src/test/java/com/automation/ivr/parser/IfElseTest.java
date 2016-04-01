@@ -17,18 +17,42 @@ public class IfElseTest {
 
     @BeforeTest
     public void init() {
-        File file = new File("examples/if_else_example.vxml");
-        vxmlEngine = new VXMLEngine();
-        vxmlEngine.setFile(file);
+
         VXMLEngine.setOnMute(true);
     }
 
+    private void createFile(String fileName) {
+        File file = new File(fileName);
+        vxmlEngine = new VXMLEngine();
+        vxmlEngine.setFile(file);
+    }
+
     @Test
-    public void test() {
+    public void testIfElse() {
+        createFile("examples/if_else_example.vxml");
 
         vxmlEngine.main(null);
         Queue<OutputWrapper> testStack = VXMLEngine.getIoHandler().getOutputQueue();
-        OutputWrapper outputString = testStack.poll();
-//        sTestCase.assertEquals(outputString.getOutput(), "Hello World. This is my first prompt.");
+        OutputWrapper output = testStack.poll();
+        TestCase.assertEquals("Flavor is other", output.getOutput());
+        
+    }
+
+    @Test
+    public void testIfElseIf() {
+        createFile("examples/if_elseif_else_example.vxml");
+        vxmlEngine.main(null);
+        Queue<OutputWrapper> testStack = VXMLEngine.getIoHandler().getOutputQueue();
+        OutputWrapper output = testStack.poll();
+        TestCase.assertEquals("Flavor is strawberry", output.getOutput());
+    }
+    
+    @Test
+    public void testNestedIf() {
+        createFile("examples/nested_if_example.vxml");
+        vxmlEngine.main(null);
+        Queue<OutputWrapper> testStack = VXMLEngine.getIoHandler().getOutputQueue();
+        OutputWrapper output = testStack.poll();
+//        TestCase.assertEquals("Flavor is strawberry", output.getOutput());
     }
 }

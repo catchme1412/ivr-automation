@@ -4,7 +4,7 @@ import org.w3c.dom.Node;
 
 public interface Tag {
 
-    public void run();
+    public void preExecute();
 
     public boolean execute();
 

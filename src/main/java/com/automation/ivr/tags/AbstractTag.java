@@ -17,18 +17,17 @@ public abstract class AbstractTag implements Tag {
     }
 
     @Override
-    public void run() {
+    public void preExecute() {
         execute();
-        for (Tag tag : childTagList) {
-            tag.run();
-        }
     }
 
-/*    @Override
+    @Override
     public boolean execute() {
-
+        for (Tag tag : childTagList) {
+            tag.preExecute();
+        }
         return true;
-    }*/
+    }
 
     @Override
     public void setNonFieldData(Node node) {

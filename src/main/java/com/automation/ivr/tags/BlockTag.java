@@ -11,11 +11,6 @@ public class BlockTag extends AbstractTag {
         super();
     }
 
-    @Override
-    public boolean execute() {
-        return true;
-    }
-
     public String getName() {
         return name;
     }

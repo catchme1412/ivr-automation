@@ -14,37 +14,28 @@ public class IfTag extends LogicalTag {
     private Boolean booleanValue;
 
     @Override
-    public void run() {
+    public void preExecute() {
         if (cond != null && !cond.isEmpty()) {
-            execute();
-            System.out.println("Boolean " + booleanValue);
-            for (Tag tag : getChildTagList()) {
-                if (booleanValue || tag instanceof ElseifTag || tag instanceof ElseTag) {
-                    tag.run();
-                }
-            }
 
+            try {
+                booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
+                ifConditionState(booleanValue);
+                execute();
+            } catch (VxmlException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            clearTopIfCondition();
         }
-        clearTopIfCondition();
     }
 
     @Override
-    public boolean execute() {/*
-        if (cond != null && !cond.isEmpty()) {
-            try {
-                Boolean bool = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
-                System.out.println("Boolean : 123 " + bool);
-            } catch (VxmlException e) {
-                e.printStackTrace();
+    public boolean execute() {
+        System.out.println("Boolean " + booleanValue);
+        for (Tag tag : getChildTagList()) {
+            if (booleanValue || tag instanceof ElseifTag || tag instanceof ElseTag) {
+                tag.preExecute();
             }
-
-        }*/
-        try {
-            booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
-            ifConditionState(booleanValue);
-        } catch (VxmlException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         return true;
     }
@@ -67,7 +58,7 @@ public class IfTag extends LogicalTag {
     }
 
     public void cleanUp() {
-        if(VXMLFileParser.stack.peek().getClass().getName().equals(ElseTag.class.getName())){
+        if (VXMLFileParser.stack.peek().getClass().getName().equals(ElseTag.class.getName())) {
             VXMLFileParser.stack.pop();
         }
         VXMLFileParser.stack.pop();

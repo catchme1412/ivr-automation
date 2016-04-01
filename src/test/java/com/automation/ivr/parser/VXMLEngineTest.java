@@ -23,6 +23,7 @@ public class VXMLEngineTest {
         VXMLEngine.setOnMute(true);
     }
 
+    @Test
     public void test() {
 
         vxmlEngine.main(null);

@@ -2,9 +2,11 @@
 <vxml version = "2.1" >
     <form id="someName">
 		<block>
-			<var name="flavor" expr="vanilla1"/>
+			<var name="flavor" expr="strawberry"/>
 			<if cond="flavor == 'vanilla'"> 
 				<prompt> Flavor is vanilla</prompt>
+			<elseif cond="flavor == 'strawberry'"/> 
+			  <prompt> Flavor is strawberry</prompt>
 			<else/> 
 			  <prompt> Flavor is other</prompt>
 			</if>

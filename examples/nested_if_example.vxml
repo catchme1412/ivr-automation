@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<vxml version = "2.1" >
+    <form id="someName">
+		<block>
+			<var name="num" expr="19"/>
+			<if cond="num &gt; 0"> 
+				<prompt> The number is positive</prompt>
+				<if cond="num &lt; 10">
+					<prompt> The number has single digit</prompt>
+				<elseif cond="num &lt; 100"/> 
+					<prompt> The number has two digit</prompt>
+				</if>
+			<elseif cond="num &lt; 0"/> 
+			  <prompt> The number is negative</prompt>
+			<else/> 
+			  <prompt> The number is zero</prompt>
+			</if>
+		</block>
+	</form>
+</vxml>

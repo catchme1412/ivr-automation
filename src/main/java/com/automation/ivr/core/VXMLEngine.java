@@ -33,7 +33,7 @@ public class VXMLEngine {
         try {
 
             Tag tag = vxmlFileParser.parse(file);
-            tag.run();;
+            tag.preExecute();;
 
         } catch (FileParsingException e) {
             e.printStackTrace();
