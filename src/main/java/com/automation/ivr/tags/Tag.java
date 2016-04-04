@@ -13,4 +13,6 @@ public interface Tag {
     public void setHierarchy(Node node, Tag tag, Tag parentTag);
 
     public void cleanUp();
+
+    public void postExecute();
 }

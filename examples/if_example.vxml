@@ -2,7 +2,7 @@
 <vxml version = "2.1" >
     <form id="someName">
 		<block>
-			<var name="num" expr="25"/>
+			<var name="num" expr="20"/>
 			<if cond="num &gt; 12"> 
 				<prompt>
 					Number is greater than 12.
@@ -14,7 +14,6 @@
 					End.
 				</prompt>
 			</if>  
-			<prompt> Created by tutee</prompt>
 		</block>
 	</form>
 </vxml>

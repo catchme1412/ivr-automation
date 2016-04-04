@@ -1,12 +1,11 @@
 package com.automation.ivr.core;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
 
 import com.automation.ivr.exception.FileParsingException;
 import com.automation.ivr.io.IOHandler;
 import com.automation.ivr.parser.VXMLFileParser;
+import com.automation.ivr.tags.AbstractTag;
 import com.automation.ivr.tags.Tag;
 
 public class VXMLEngine {
@@ -24,16 +23,10 @@ public class VXMLEngine {
     public void main(String[] args) {
 
         VXMLFileParser vxmlFileParser = new VXMLFileParser("", null);
-        /*
-         * vxmlFileParser.setFileName("examples/prompt_example.vxml");
-         * vxmlFileParser.parse();
-         */
 
-        // file = new File("examples/prompt_example.vxml");
         try {
-
             Tag tag = vxmlFileParser.parse(file);
-            tag.preExecute();;
+            walk(tag);
 
         } catch (FileParsingException e) {
             e.printStackTrace();
@@ -43,10 +36,15 @@ public class VXMLEngine {
 
     }
 
-/*    private void execute(Tag tag){
-        tag.execute();
-        tag
-    }*/
+    private void walk(Tag tag) {
+        tag.preExecute();
+        ((AbstractTag) tag).tryExecute();
+        for (Tag tagElement : ((AbstractTag) tag).getChildTagList()) {
+            walk(tagElement);
+        }
+        tag.postExecute();
+    }
+
     public File getFile() {
         return file;
     }

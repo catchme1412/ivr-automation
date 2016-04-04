@@ -34,10 +34,4 @@ public class LogicalTag extends AbstractTag {
         return true;*/
     }
 
-    @Override
-    public boolean execute() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
 }

@@ -10,18 +10,9 @@ public class ElseTag extends LogicalTag {
 
     @Override
     public void preExecute() {
-        if (!isAllParentIfConditionsAreTrue()) {
-           execute();
-        }
 
-    }
-
-    public boolean execute() {
-        for (Tag tag : getChildTagList()) {
-            tag.preExecute();
-        }
-        return true;
-
+        boolean isExecute = !isAllParentIfConditionsAreTrue();
+        toggleExecute(isExecute);
     }
 
     public void setHierarchy(Node node, Tag tag, Tag parentTag) {

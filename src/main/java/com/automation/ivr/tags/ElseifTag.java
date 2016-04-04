@@ -15,31 +15,22 @@ public class ElseifTag extends LogicalTag {
 
     @Override
     public void preExecute() {
-        if (cond != null && !cond.isEmpty()) {
-            try {
-                booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
-                if (!isAllParentIfConditionsAreTrue()) {
-                    clearTopIfCondition();
-                    ifConditionState(booleanValue );
-                    execute();
-                }
-            } catch (VxmlException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
 
-    @Override
-    public boolean execute() {
-        System.out.println("Boolean " + booleanValue);
-        for (Tag tag : getChildTagList()) {
-            if (booleanValue || tag instanceof ElseifTag || tag instanceof ElseTag) {
-                tag.preExecute();
-            }
-        }
+        boolean isLogicalBlockExecuted = isExecutePeek();
+        try {
+            booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
+            boolean isExecute = (!(isLogicalBlockExecuted && isAllParentIfConditionsAreTrue())) && booleanValue;
+            toggleExecute(isExecute);
 
-        return true;
+            if (!isAllParentIfConditionsAreTrue()) {
+                clearTopIfCondition();
+                ifConditionState(booleanValue);
+                execute();
+            }
+        } catch (VxmlException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void setHierarchy(Node node, Tag tag, Tag parentTag) {

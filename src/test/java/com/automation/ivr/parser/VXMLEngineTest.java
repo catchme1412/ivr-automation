@@ -30,6 +30,8 @@ public class VXMLEngineTest {
         Queue<OutputWrapper> testStack = VXMLEngine.getIoHandler().getOutputQueue();
         OutputWrapper outputString = testStack.poll();
         TestCase.assertEquals(outputString.getOutput(), "Hello World. This is my first prompt.");
+        outputString = testStack.poll();
+        TestCase.assertEquals(outputString.getOutput(), "Hello World. This is my second prompt.");
     }
 
     @Test

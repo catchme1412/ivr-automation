@@ -15,29 +15,15 @@ public class IfTag extends LogicalTag {
 
     @Override
     public void preExecute() {
-        if (cond != null && !cond.isEmpty()) {
-
-            try {
-                booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
-                ifConditionState(booleanValue);
-                execute();
-            } catch (VxmlException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            clearTopIfCondition();
+        try {
+            booleanValue = (Boolean) VXMLEngine.getVxmlScriptEngine().eval(cond);
+            ifConditionState(booleanValue);
+            Boolean isExecute = booleanValue && isExecutePeek();
+            setExecuteFlag(isExecute);
+        } catch (VxmlException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean execute() {
-        System.out.println("Boolean " + booleanValue);
-        for (Tag tag : getChildTagList()) {
-            if (booleanValue || tag instanceof ElseifTag || tag instanceof ElseTag) {
-                tag.preExecute();
-            }
-        }
-        return true;
     }
 
     public String getCond() {
@@ -62,5 +48,11 @@ public class IfTag extends LogicalTag {
             VXMLFileParser.stack.pop();
         }
         VXMLFileParser.stack.pop();
+    }
+
+    @Override
+    public void postExecute() {
+        clearTopIfCondition();
+        clearTopExecuteFlag();
     }
 }
