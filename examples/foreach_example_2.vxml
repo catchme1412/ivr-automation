@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<vxml version="2.1">
+	<form>
+	<script>
+		var movies = new Array();
+		movies[0] = new Object();
+		movies[0].audio = 'godfather.wav';
+		movies[0].tts = 'The Godfather';
+		movies[1] = new Object();
+		movies[1].audio = 'highfidelity.wav';
+		movies[1].tts = 'High Fidelity';
+		movies[2] = new Object();
+		movies[2].audio = 'raiders.wav';
+		movies[2].tts = 'Raiders of The Lost Ark';
+	</script>
+	<field name="mov">
+		<prompt>
+			Movies are.
+			<break time="500ms" />
+			<foreach item="movie" array="movies">
+				<audio expr="movie.audio">
+					<value expr="movie.tts" />
+				</audio>
+				<break time="500ms" />
+			</foreach>
+		</prompt>
+	</field>
+	</form>
+</vxml>
