@@ -84,6 +84,10 @@ public class VxmlScriptEngine {
     public Object executeScript(File file) throws FileNotFoundException, ScriptException {
         return scriptEngine.eval(new FileReader(file));
     }
+
+    public Object executeScript(String script) throws ScriptException {
+        return scriptEngine.eval(script);
+    }
     
     public void assignScriptVar(String var, Object val) {
         val = "true".equals(val) ? true : val;

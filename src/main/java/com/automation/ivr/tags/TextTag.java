@@ -10,7 +10,7 @@ import com.sun.speech.freetts.VoiceManager;
 
 public class TextTag extends AbstractTag {
 
-    String data;
+    private String data;
 
     @Override
     public boolean execute() {
@@ -20,7 +20,7 @@ public class TextTag extends AbstractTag {
             Voice voice = vm.getVoice("kevin16");
             voice.allocate();
 
-            if (!data.isEmpty()) {
+            if (!data.isEmpty() && (!(((AbstractTag)this).parentTag instanceof ScriptTag))) {
                 OutputWrapper outputWrapper = new OutputWrapper(OutputType.TTS, data);
                 VXMLEngine.getIoHandler().getOutputQueue().add(outputWrapper);
                 if (!Boolean.valueOf(VXMLEngine.isOnMute())) {

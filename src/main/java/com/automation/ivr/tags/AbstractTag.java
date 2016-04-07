@@ -104,4 +104,12 @@ public abstract class AbstractTag implements Tag {
         }
     }
 
+    protected void executeChildTree(Tag tag) {
+        for(Tag tagElement: ((AbstractTag)tag).getChildTagList()){
+            tagElement.preExecute();
+            ((AbstractTag)tagElement).tryExecute();
+            executeChildTree(tagElement);
+            tagElement.postExecute();
+        }
+    }
 }
