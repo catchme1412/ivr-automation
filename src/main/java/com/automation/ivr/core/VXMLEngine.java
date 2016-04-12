@@ -11,11 +11,11 @@ import com.automation.ivr.tags.Tag;
 public class VXMLEngine {
 
     private File file;
-    private static boolean onMute;
+    private static boolean unitTestCaseModeEnabled;
     private static IOHandler ioHandler;
     private static VxmlScriptEngine vxmlScriptEngine;
     static {
-        onMute = false;
+        unitTestCaseModeEnabled = false;
         ioHandler = new IOHandler();
         vxmlScriptEngine = new VxmlScriptEngine();
     }
@@ -53,12 +53,12 @@ public class VXMLEngine {
         this.file = file;
     }
 
-    public static boolean isOnMute() {
-        return onMute;
+    public static boolean isUnitTestCaseModeEnabled() {
+        return unitTestCaseModeEnabled;
     }
 
-    public static void setOnMute(boolean onMute) {
-        VXMLEngine.onMute = onMute;
+    public static void setUnitTestCaseModeEnabled(boolean onMute) {
+        VXMLEngine.unitTestCaseModeEnabled = onMute;
     }
 
     public static IOHandler getIoHandler() {

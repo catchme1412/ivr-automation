@@ -31,7 +31,7 @@ public class ValueTag extends AbstractTag {
             voice.allocate();
             OutputWrapper outputWrapper = new OutputWrapper(OutputType.TTS, value);
             VXMLEngine.getIoHandler().getOutputQueue().add(outputWrapper);
-            if (!VXMLEngine.isOnMute()) {
+            if (!VXMLEngine.isUnitTestCaseModeEnabled()) {
                 voice.speak(value);
             }
             System.out.println(value);

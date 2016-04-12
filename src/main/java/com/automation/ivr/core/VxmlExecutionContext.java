@@ -24,7 +24,7 @@ public class VxmlExecutionContext {
         vxmlScriptEngine = new VxmlScriptEngine();
         tagMap = new HashMap<String, Tag>();
         ioHandler = new IOHandler();
-        ioHandler.setInputQueue(new LinkedBlockingDeque<String>());
+        ioHandler.setDtmfInputQueue(new LinkedBlockingDeque<String>());
         ioHandler.setOutputQueue(new LinkedBlockingDeque<OutputWrapper>());
 
     }

@@ -20,7 +20,7 @@ public class VXMLEngineTest {
         File file = new File("examples/prompt_example.vxml");
         vxmlEngine = new VXMLEngine();
         vxmlEngine.setFile(file);
-        VXMLEngine.setOnMute(true);
+        VXMLEngine.setUnitTestCaseModeEnabled(true);
     }
 
     @Test

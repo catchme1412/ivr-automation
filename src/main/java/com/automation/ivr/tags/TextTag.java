@@ -23,7 +23,7 @@ public class TextTag extends AbstractTag {
             if (!data.isEmpty() && (!(((AbstractTag)this).parentTag instanceof ScriptTag))) {
                 OutputWrapper outputWrapper = new OutputWrapper(OutputType.TTS, data);
                 VXMLEngine.getIoHandler().getOutputQueue().add(outputWrapper);
-                if (!Boolean.valueOf(VXMLEngine.isOnMute())) {
+                if (!Boolean.valueOf(VXMLEngine.isUnitTestCaseModeEnabled())) {
                     voice.speak(data);
                 }
                 System.out.println("Prompt:: " + data);

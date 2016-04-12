@@ -19,7 +19,7 @@ public class ForEachTagTest {
 
     @BeforeTest
     public void init() {
-        VXMLEngine.setOnMute(true);
+        VXMLEngine.setUnitTestCaseModeEnabled(true);
     }
 
     private void createFile(String fileName) {
