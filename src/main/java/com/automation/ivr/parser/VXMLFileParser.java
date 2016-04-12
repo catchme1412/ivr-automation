@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,13 +14,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.automation.ivr.core.VXMLEngine;
 import com.automation.ivr.exception.FileParsingException;
+import com.automation.ivr.tags.FormTag;
+import com.automation.ivr.tags.GotoTag;
 import com.automation.ivr.tags.Tag;
 import com.automation.ivr.tags.TagFactory;
 
@@ -29,6 +30,8 @@ public class VXMLFileParser implements IFileParser {
     private String fileName;
     private String remoteLoc;
     public static Stack<Tag> stack;
+    public static Map<String, Tag> formMap = new HashMap<String, Tag> ();
+    private boolean isForm = false;
 
     static {
         stack = new Stack<Tag>();
@@ -146,9 +149,18 @@ public class VXMLFileParser implements IFileParser {
             Node currentNode = nodeList.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE || currentNode.getNodeType() == Node.TEXT_NODE) {
                 Tag tag = TagFactory.get(currentNode);
+                if (tag instanceof GotoTag) {
+                    isForm = true;
+                }
+                if (tag instanceof FormTag && isForm) {
+                    formMap.put(((FormTag) tag).getId(), tag);
+                    parseAllNodes(tag, currentNode);
+                    continue;
+
+                }
                 tag.setNonFieldData(currentNode);
                 tag.setHierarchy(currentNode, tag, parentTag);
-//                tagList.add(tag);
+                // tagList.add(tag);
                 parseAllNodes(tag, currentNode);
                 tag.cleanUp();
             }
